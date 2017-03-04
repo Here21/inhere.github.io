@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          十分钟了解ES6 - Martin的博客 | Martin&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.inhere.top/2016/08/19/十分钟了解ES6/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Martin的博客</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">关于我</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">归档</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.inhere.top/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('http://obd9ssud2.bkt.clouddn.com/ES6-the-bits-youll-actually-use.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#ES6" title="ES6">ES6</a>
+                        
+                    </div>
+                    <h1>十分钟了解ES6</h1>
+                    <h2 class="subheading">从javascript到ES6，看这些变化就够了</h2>
+                    <span class="meta">
+                        Posted by Martin张灏哲 on
+                        2016-08-19
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h1><p>ES6的变化已经让javascript语言变得更值得信赖，那么在了解ES6之前，你都应该去试图理解一下的代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(type, number) &#123;</div><div class="line">    <span class="keyword">this</span>.type = type;</div><div class="line">    <span class="keyword">this</span>.number = number;</div><div class="line">    <span class="keyword">this</span>.fuel = <span class="number">1000</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  start() &#123;</div><div class="line">    <span class="keyword">this</span>._startHandler = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">this</span>.fuel--;</div><div class="line">    &#125;, <span class="number">500</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  stop() &#123;</div><div class="line">    clearInterval(<span class="keyword">this</span>._startHandler)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  display() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">`Number: <span class="subst">$&#123;<span class="keyword">this</span>.number&#125;</span>`</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// main.js</span></div><div class="line"><span class="keyword">import</span> Vehicle <span class="keyword">from</span> <span class="string">'./lib/vehicle'</span>;</div><div class="line"><span class="keyword">const</span> &#123;log&#125; = <span class="built_in">console</span>;</div><div class="line"></div><div class="line"><span class="keyword">let</span> v1 = <span class="keyword">new</span> Vehicle(<span class="string">'Car'</span>, <span class="string">'HY-8244'</span>);</div><div class="line">v1.start();</div><div class="line">log(v1.display());</div></pre></td></tr></table></figure></p>
+<p>这看上去不像你平时见过或者写的JS代码对吗？没关系，欢迎认识ES6。</p>
+<h1 id="let-amp-const"><a href="#let-amp-const" class="headerlink" title="let &amp; const"></a>let &amp; const</h1><p>当我们声明变量的时候，通常会（ES6之前的语法）使用<code>var</code>。但是这有个大问题，我们用<code>var</code>定义的每个变量都有 <strong>functional scope</strong>。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> lc=<span class="number">0</span>; lc &lt; <span class="number">10</span>; lc++) &#123;</div><div class="line">  <span class="keyword">var</span> value = lc;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(value, lc);</div></pre></td></tr></table></figure></p>
+<p>如上代码所示，我们既可以使用<code>value</code>又可以使用<code>lc</code>，即使<code>lc</code>是被定义在<code>for</code>循环中。</p>
+<p>在<strong>ES6</strong>中，你可以用<code>let</code>和<code>const</code>去代替<code>var</code>使用：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> lc=<span class="number">0</span>; lc &lt; <span class="number">10</span>; lc++) &#123;</div><div class="line">  <span class="comment">// let 声明的变量是局部变量，在这里只课用在for循环内</span></div><div class="line">  <span class="keyword">let</span> value = lc;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(value); <span class="comment">// throws an error</span></div></pre></td></tr></table></figure></p>
+<p><code>const</code>和<code>let</code>很像，不过<code>const</code>声明的变量是不允许改变的。</p>
+<blockquote>
+<p>In most cases, you can use <code>const</code> instead of <code>let</code>. That’s how most developers declare variables with ES2015.</p>
+</blockquote>
+<p>但是，值得注意的是：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> a = <span class="number">1</span>;</div><div class="line">a=<span class="number">2</span>;</div><div class="line"><span class="comment">// Uncaught TypeError</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> user = &#123;<span class="attr">name</span>: <span class="string">"Martin"</span>&#125;;</div><div class="line">user.name = <span class="string">"Simon"</span>;</div><div class="line"><span class="built_in">console</span>.log(user.name);</div></pre></td></tr></table></figure></p>
+<p>不是说<code>const</code>声明的变量不可以改变吗？</p>
+<p>没错，<code>const</code>声明的变量是不会被改变的，但是<code>user</code>被改变的是变量内部的<strong>一块区域</strong>，而不是变量被改变了。<br>所以这就是为什么很多人更喜欢用<code>const</code>去代替<code>let</code></p>
+<h1 id="箭头函数-gt"><a href="#箭头函数-gt" class="headerlink" title="箭头函数 =&gt;"></a>箭头函数 =&gt;</h1><p>使用箭头函数<code>=&gt;</code>可以精简你的代码，让代码整洁优雅。来看栗子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A</span></div><div class="line"><span class="keyword">const</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</div><div class="line"><span class="keyword">const</span> result = array.map(<span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> a * <span class="number">10</span>;</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(result);</div><div class="line"></div><div class="line"><span class="comment">// B</span></div><div class="line"><span class="keyword">const</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>， <span class="number">5</span>];</div><div class="line"><span class="keyword">const</span> result = array.map(<span class="function"><span class="params">a</span> =&gt;</span> a * <span class="number">10</span>);</div><div class="line"><span class="built_in">console</span>.log(result);</div><div class="line"></div><div class="line"><span class="comment">// C </span></div><div class="line"><span class="keyword">const</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</div><div class="line"><span class="keyword">const</span> result = array.map(<span class="function">(<span class="params">a, i</span>) =&gt;</span> a * i);</div><div class="line"><span class="built_in">console</span>.log(result);</div></pre></td></tr></table></figure></p>
+<p>这里的结果会是一样的，在大的项目中，这会精简不少代码。当然，这里就相当于是个<code>lambdas</code>。还有，参数也可以是多个。</p>
+<p>但是这里的使用有个小细节需要注意：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A</span></div><div class="line"><span class="keyword">const</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>， <span class="number">5</span>];</div><div class="line"><span class="keyword">const</span> result = array.map(<span class="function"><span class="params">a</span> =&gt;</span> &#123;<span class="attr">res</span>: a * <span class="number">10</span>&#125;);</div><div class="line"><span class="built_in">console</span>.log(result);</div><div class="line"><span class="comment">// [undefined, undefined, undefined, undefined]</span></div><div class="line"></div><div class="line"><span class="comment">// B</span></div><div class="line"><span class="keyword">const</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</div><div class="line"><span class="keyword">const</span> result = array.map(<span class="function"><span class="params">a</span> =&gt;</span> (&#123;<span class="attr">res</span>: a * <span class="number">10</span>&#125;);</div><div class="line"><span class="built_in">console</span>.log(result);</div><div class="line"><span class="comment">// [10, 20, 30, 40, 50]</span></div></pre></td></tr></table></figure></p>
+<p>在A中，<code>{res: a * 10}</code>被箭头函数认为是一个区域，所以你需要包裹一个<code>（）</code>。</p>
+<h1 id="that-this"><a href="#that-this" class="headerlink" title="that = this"></a><del>that = this</del></h1><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Clock</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.currentTime = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">&#125;</div><div class="line"></div><div class="line">Clock.prototype.start = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> that = <span class="keyword">this</span>;</div><div class="line">    setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        that.currentTime = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">    &#125;, <span class="number">1000</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 箭头函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Clock</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.currentTime = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">&#125;</div><div class="line"></div><div class="line">Clock.prototype.start = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        <span class="keyword">this</span>.currentTime = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">    &#125;, <span class="number">1000</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>还有一点需要注意，有些情况无法使用<code>=&gt;</code>箭头函数：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">const</span> user = &#123;<span class="attr">userId</span>: <span class="string">'arunoda'</span>&#125;;</div><div class="line"><span class="keyword">const</span> RPC = &#123;</div><div class="line">  <span class="attr">methods</span>: &#123;&#125;, </div><div class="line">  call (name, ...args) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.methods[name].apply(user, args);</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// 箭头函数</span></div><div class="line">RPC.methods.sum = <span class="function">(<span class="params">a, b</span>) =&gt;</span> &#123;</div><div class="line">  <span class="keyword">if</span> (!<span class="keyword">this</span>.userId) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Unauthorized"</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> a + b;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> total = RPC.call(<span class="string">'sum'</span>, <span class="number">10</span>, <span class="number">20</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'Total is: '</span> + total);</div><div class="line"><span class="comment">// TypeError: Cannot read property 'userId' of undefined</span></div><div class="line"></div><div class="line"><span class="comment">// function</span></div><div class="line">RPC.methods.sum = <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!<span class="keyword">this</span>.userId) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Unauthorized"</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> a + b;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> total = RPC.call(<span class="string">'sum'</span>, <span class="number">10</span>, <span class="number">20</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'Total is: '</span> + total);</div><div class="line"><span class="string">"Total is: 30"</span></div></pre></td></tr></table></figure></p>
+<p>这是因为，箭头功能携带其中函数定义的地方的<code>context</code>。他们掩盖了运行时环境。</p>
+<blockquote>
+<p>That’s because arrow functions carry the context of the place where the function is defined. They mask the runtime context.<br>Arrow functions are great, but they are not a solution you can use everywhere. Think before using them.</p>
+</blockquote>
+<h1 id="增强的Object"><a href="#增强的Object" class="headerlink" title="增强的Object"></a>增强的Object</h1><p>请看栗子:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 不用再写`function`</span></div><div class="line"><span class="keyword">const</span> user = &#123;</div><div class="line">    getName() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">'Arunoda'</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(user.getName());</div><div class="line"></div><div class="line"><span class="comment">// 直接给Object赋值</span></div><div class="line"><span class="keyword">const</span> name = <span class="string">'Arunoda'</span>;</div><div class="line"><span class="keyword">const</span> age = <span class="number">80</span>;</div><div class="line"><span class="keyword">const</span> user = &#123;name, age&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 与上相同</span></div><div class="line"><span class="keyword">const</span> name = <span class="string">'Arunoda'</span>;</div><div class="line"><span class="keyword">const</span> age = <span class="number">80</span>;</div><div class="line"><span class="keyword">const</span> user = &#123;</div><div class="line">    <span class="attr">name</span>: name,</div><div class="line">    <span class="attr">age</span>: age</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>我们还可以这样使用:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">printName</span>(<span class="params">&#123;name&#125;</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Name is: '</span> + name);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> user = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Arunoda'</span>,</div><div class="line">    <span class="attr">age</span>: <span class="number">80</span>,</div><div class="line">    <span class="attr">city</span>: <span class="string">'Colombo'</span></div><div class="line">&#125;;</div><div class="line">printName(user);</div></pre></td></tr></table></figure></p>
+<p>这不仅简化我们的代码，而且相当于为代码做了文档,当我们看在函数的第一行，我们知道我们正在使用的输入对象的到底是什么。</p>
+<p>当然,最喜欢的我认为还是这个:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 你也可以用&#123;name, age = 20&#125;</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">printUser</span>(<span class="params">[name, age = <span class="number">20</span>]</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Name is: '</span> + name + <span class="string">' Age: '</span> + age);</div><div class="line">&#125;</div><div class="line"></div><div class="line">printUser([<span class="string">"Arunoda"</span>, <span class="number">80</span>]);</div></pre></td></tr></table></figure></p>
+<p>这就使我们的代码更为健壮.在写一些结构复杂的代码的时候,我们难免会遇到<code>参数</code>的变化,那这种写法就可以有效的避免变化带来的麻烦.</p>
+<h1 id="展开操作符-‘spread-operator’-array"><a href="#展开操作符-‘spread-operator’-array" class="headerlink" title="展开操作符 ‘spread operator’ ...array"></a>展开操作符 ‘spread operator’ <code>...array</code></h1><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">volume</span>(<span class="params">l, w, h</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> l*w*h;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ES6以前</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">result</span>(<span class="params">l, w, h</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> res = volume(l, w, h);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Result is: '</span> + res);</div><div class="line">    <span class="keyword">return</span> res;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ES6</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">result</span>(<span class="params">...args</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> res = volume(...args);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Result is: '</span> + res);</div><div class="line">    <span class="keyword">return</span> res;</div><div class="line">&#125;</div><div class="line"></div><div class="line">result(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>);</div></pre></td></tr></table></figure>
+<p>如下情况需要注意:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">printTeam</span>(<span class="params">leader, ...others</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'Leader: '</span> + leader + <span class="string">' - Others: '</span> + others);</div><div class="line">&#125;</div><div class="line"></div><div class="line">printTeam(<span class="string">'Arunoda'</span>, <span class="string">'John'</span>, <span class="string">'Singh'</span>);</div><div class="line"><span class="comment">// Leader: Arunoda - Others: John,Singh </span></div><div class="line"><span class="comment">// NOT Leader: Arunoda - Others: ["John", "Singh"]</span></div></pre></td></tr></table></figure></p>
+<h1 id="对Objects的操作"><a href="#对Objects的操作" class="headerlink" title="对Objects的操作"></a>对Objects的操作</h1><p>如果我们想要<code>clone</code>或者<code>merge</code>一个对象,过去的话我们通常会选用很多辅助库,如<code>lodash``underscore</code>.<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> user = &#123;<span class="attr">name</span>: <span class="string">"Arunoda"</span>&#125;;</div><div class="line"><span class="keyword">var</span> newUser = _.clone(user);</div><div class="line"><span class="keyword">var</span> withAge = _.extend(user, &#123;<span class="attr">age</span>: <span class="number">20</span>&#125;);</div><div class="line"><span class="keyword">var</span> newUserVersion = _.defaults(&#123;<span class="attr">age</span>: <span class="number">80</span>&#125;, user);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(newUser, withAge, newUserVersion);</div></pre></td></tr></table></figure></p>
+<p>在ES6中,我们有一些简单的方式(不使用帮助库)去实现:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> user = &#123;<span class="attr">name</span>: <span class="string">"Arunoda"</span>&#125;;</div><div class="line"><span class="keyword">const</span> newUser = &#123;...user&#125;;</div><div class="line"><span class="keyword">const</span> withAge = &#123;...user, <span class="attr">age</span>: <span class="number">20</span>&#125;;</div><div class="line"><span class="keyword">const</span> newUserVersion = &#123;<span class="attr">age</span>: <span class="number">80</span>, ...user&#125;;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(newUser, withAge, newUserVersion);</div></pre></td></tr></table></figure></p>
+<blockquote><p>When you are adding a new field to an object, it’s good practice to create new objects rather than extending it.<br>This leads to clear code and reduces mistakes.<br>This new syntax encourages us to do that.</p>
+</blockquote>
+<p>这有个问题给你,请看代码:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> user = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'Arunoda'</span>,</div><div class="line">  <span class="attr">emails</span>: [<span class="string">'hello@arunoda.io'</span>]</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">const</span> newUser = &#123;...user&#125;;</div><div class="line">newUser.emails.push(<span class="string">'mail@arunoda.io'</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(user.emails);</div></pre></td></tr></table></figure></p>
+<p>请问输出的结果会如何?<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="string">"hello@arunoda.io"</span>, <span class="string">"mail@arunoda.io"</span>]</div></pre></td></tr></table></figure></p>
+<p><strong>尽管我们复制了对象，但是它不是一个深克隆。我们仅克隆了顶级域</strong>.在这两个对象的<code>emails</code>字段中使用是相同的。</p>
+<p>我们也可以复制数组:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> marks = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>];</div><div class="line"><span class="keyword">const</span> newMarks = [...marks, <span class="number">40</span>];</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(marks, newMarks);</div><div class="line"><span class="comment">// [10,20,30],[10,20,30,40]</span></div></pre></td></tr></table></figure></p>
+<h1 id="Immutability-in-JavaScript-纯函数"><a href="#Immutability-in-JavaScript-纯函数" class="headerlink" title="Immutability in JavaScript (纯函数)"></a>Immutability in JavaScript (纯函数)</h1><blockquote><p>That means, a function gets some input and returns some value. But the function does not change the values it receives via arguments. And it always returns the same value for the same input.</p>
+<p><code>random()</code> would not a pure function. And any function that modifies some global state is also not pure.</p>
+</blockquote>
+<p>栗子:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// with objects</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addMarks</span>(<span class="params">user, marks</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    ...user,</div><div class="line">    marks</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> user = &#123;<span class="attr">username</span>: <span class="string">'arunoda'</span>&#125;;</div><div class="line"><span class="keyword">const</span> userWithMarks = addMarks(user, <span class="number">80</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(user, userWithMarks);</div><div class="line"></div><div class="line"><span class="comment">// with arrays</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addUser</span>(<span class="params">users, username</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> user = &#123;username&#125;;</div><div class="line">  <span class="keyword">return</span> [</div><div class="line">    ...users,</div><div class="line">    user</div><div class="line">  ];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> user = &#123;<span class="attr">username</span>: <span class="string">'arunoda'</span>&#125;;</div><div class="line"><span class="keyword">const</span> users = [user];</div><div class="line"><span class="keyword">const</span> newUsers = addUser(users, <span class="string">'john'</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(users, newUsers);</div></pre></td></tr></table></figure></p>
+<h1 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h1><p>直接上栗子:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A</span></div><div class="line"><span class="keyword">const</span> name = <span class="string">"Martin"</span>;</div><div class="line"><span class="keyword">const</span> string = <span class="string">`Hello <span class="subst">$&#123;name&#125;</span>!`</span>;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(string);</div><div class="line"></div><div class="line"><span class="comment">// 多行字符串</span></div><div class="line"><span class="keyword">const</span> message = <span class="string">`</span></div><div class="line">  # Title</div><div class="line"></div><div class="line">  This is a multi line string as markdown.</div><div class="line">  It's pretty nice.</div><div class="line">`;</div><div class="line"><span class="built_in">console</span>.log(message);</div><div class="line"><span class="comment">// 等于上代码</span></div><div class="line"><span class="keyword">var</span> message = <span class="string">"\n  # Title\n\n  This is a multi line string as markdown.\n  It's pretty nice.\n"</span>;</div><div class="line"><span class="built_in">console</span>.log(message);</div></pre></td></tr></table></figure></p>
+<h1 id="类-Class"><a href="#类-Class" class="headerlink" title="类 Class"></a>类 Class</h1><p>JavaScript不是一个传统的的面向对象的语言(不像Java等有<code>class</code>)。但是，我们可以使用的函数<code>function</code>和<code>prototypes</code>去模拟class。<br>不过有了ES2015，现在我们直接可以写本地类:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(type, number) &#123;</div><div class="line">    <span class="keyword">this</span>.type = type;</div><div class="line">    <span class="keyword">this</span>.number = number;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  display() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">`Number: <span class="subst">$&#123;<span class="keyword">this</span>.number&#125;</span>`</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> v1 = <span class="keyword">new</span> Vehicle(<span class="string">'Car'</span>, <span class="string">'GH-2343'</span>);</div><div class="line"><span class="built_in">console</span>.log(v1.display());</div><div class="line"><span class="string">``</span><span class="string">` </span></div><div class="line">&#123;%blockquote%&#125;</div><div class="line">Behind the scenes, it's using functions and prototypes to implement the class.</div><div class="line">So, it's compatible with older versions of JavaScript while providing us with nicer syntax.</div><div class="line">That means you can still access the prototype and edit it as needed.</div><div class="line">&#123;%endblockquote%&#125;</div><div class="line"></div><div class="line">栗子:</div><div class="line">`<span class="string">``</span>js</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(type, number) &#123;</div><div class="line">    <span class="keyword">this</span>.type = type;</div><div class="line">    <span class="keyword">this</span>.number = number;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  display() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">`Number: <span class="subst">$&#123;<span class="keyword">this</span>.number&#125;</span>`</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span> <span class="keyword">extends</span> <span class="title">Vehicle</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(number) &#123;</div><div class="line">    <span class="keyword">super</span>(<span class="string">'Car'</span>, number);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  display() &#123;</div><div class="line">    <span class="keyword">const</span> value = <span class="keyword">super</span>.display();</div><div class="line">    <span class="keyword">return</span> <span class="string">`Car <span class="subst">$&#123;value&#125;</span>`</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> v1 = <span class="keyword">new</span> Car(<span class="string">'GH-2343'</span>);</div><div class="line"><span class="built_in">console</span>.log(v1.display());</div></pre></td></tr></table></figure></p>
+<p>我们在子类的构造函数中调用父类的构造函数<code>constructor</code>,在子类中复写了父类的<code>display()</code>方法,并且在子类中的<code>display()</code>方法中,也调用父类的<code>display()</code>方法.</p>
+<h1 id="模块-Module"><a href="#模块-Module" class="headerlink" title="模块 Module"></a>模块 Module</h1><p>ES2015有一个模块系统，我们可以把我们的应用拆分成较小的模块(可管理的模块)。这个模块系统非常类似于CommonJS的模块系统（或Node.js的的模块系统），但有一个重要的差别:<br><blockquote><p>All the imports should be static. That means, you can’t import modules at runtime. They need to done at compile time (or better when interpreting JavaScript).<br>Here’s a piece of code that cannot be written with ES2015 modules:</p>
+</blockquote><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> router;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">window</span> === <span class="string">'function'</span>) &#123;</div><div class="line">  router = <span class="keyword">import</span> <span class="string">'./client-router'</span>;</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  router = <span class="keyword">import</span> <span class="string">'./server-router'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><a href="http://es6.ruanyifeng.com/#docs/module" target="_blank" rel="external">ECMAScript6 入门</a>有关于模块详细的介绍.</p>
+<p>模块是ES语法中的新的东西,需要仔细阅读,阮一峰老师的书中有详细的解读.</p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share"
+                    style="text-align: right"
+                    data-thread-key="2016/08/19/十分钟了解ES6/"
+                    data-title="十分钟了解ES6"
+                    data-url="http://www.inhere.top/2016/08/19/十分钟了解ES6/"
+                    data-images="http://www.inhere.top/2016/08/19/十分钟了解ES6/http://obd9ssud2.bkt.clouddn.com/ES6-the-bits-youll-actually-use.png"
+                    data-content="导读ES6的变化已经让javascript语言变得更值得信赖，那么在了解ES6之前，你都应该去... | Martin的博客 | Martin&#39;s Blog " >
+                    <div class="ds-share-inline">
+                      <ul  class="ds-share-icons-16">
+                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                      </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/08/31/七牛在Meteor中的上传实例与FileReader的使用/" data-toggle="tooltip" data-placement="top" title="七牛在Meteor中的上传实例与FileReader的使用">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/08/17/Redux-上手笔记（一）/" data-toggle="tooltip" data-placement="top" title="Redux 上手笔记（一）">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="2016/08/19/十分钟了解ES6/"
+                        data-title="十分钟了解ES6"
+                        data-url="http://www.inhere.top/2016/08/19/十分钟了解ES6/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ES6" title="ES6">ES6</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'InHere';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/zhang-hao-zhe-32">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/deletetmr">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/here21">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Martin的博客 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.inhere.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-69070764-1';
+    var _gaDomain = 'www.inhere.top';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://www.inhere.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

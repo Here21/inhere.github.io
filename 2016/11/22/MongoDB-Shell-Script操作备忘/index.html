@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          MongoDB Shell Script操作备忘 - Martin的博客 | Martin&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.inhere.top/2016/11/22/MongoDB-Shell-Script操作备忘/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Martin的博客</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">关于我</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">归档</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.inhere.top/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('http://obd9ssud2.bkt.clouddn.com/mongoDB.jpeg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#MongoDB" title="MongoDB">MongoDB</a>
+                        
+                    </div>
+                    <h1>MongoDB Shell Script操作备忘</h1>
+                    <h2 class="subheading">翻译&amp;补充：官方文档——Write Scripts for the mongo Shell</h2>
+                    <span class="meta">
+                        Posted by Martin张灏哲 on
+                        2016-11-22
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="编写mongo-Shell的脚本"><a href="#编写mongo-Shell的脚本" class="headerlink" title="编写mongo Shell的脚本"></a>编写mongo Shell的脚本</h1><blockquote>
+<p>在此页面上</p>
+<ul>
+<li>打开新连接</li>
+<li>互动和脚本之间的区别</li>
+<li>脚本</li>
+</ul>
+</blockquote>
+<p>您可以在JavaScript中编写mongo shell的脚本，在MongoDB中操作数据或执行管理操作。 有关mongo shell的更多信息，有关使用这些mongo脚本的更多信息，请参阅通过服务器部分上的mongo shell实例运行.js文件。</p>
+<p>本教程提供了编写使用mongo shell访问MongoDB的JavaScript的介绍。</p>
+<p>在脚本文件中，可包含任意数量使用JavaScript（如条件语句和循环）的MongoDB命令。MongoDB shell脚本编程主要是通过三种方式实现的。</p>
+<ul>
+<li>在命令行指定要执行的JavaScript文件。</li>
+<li>在命令行使用参数–eval <expression>，其中expression是要执行的JavaScript表达式。</expression></li>
+<li>在MongoDB shell启动后，调用方法load(script_path)，其中script_path是要执行的JavaScript文件的路径。</li>
+</ul>
+<h2 id="打开新连接"><a href="#打开新连接" class="headerlink" title="打开新连接"></a>打开新连接</h2><p>从mongo shell或从JavaScript文件，您可以使用Mongo（）构造函数实例化数据库连接：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Mongo()</div><div class="line"><span class="keyword">new</span> Mongo(&lt;host&gt;)</div><div class="line">new Mongo(&lt;host:port&gt;)</div></pre></td></tr></table></figure></p>
+<p>考虑下面的例子，它实例化一个到默认端口上在localhost上运行的MongoDB实例的新连接，并使用getDB（）方法将全局数据库变量设置为myDatabase：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">conn = <span class="keyword">new</span> Mongo();</div><div class="line">db = conn.getDB(<span class="string">"myDatabase"</span>);</div></pre></td></tr></table></figure></p>
+<p>如果连接到强制实施访问控制的MongoDB实例，则可以使用db.auth（）方法进行身份验证。</p>
+<p>此外，您可以使用connect（）方法连接到MongoDB实例。 以下示例连接到在localhost上运行的非默认端口27020的MongoDB实例，并设置全局数据库变量：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db = connect(<span class="string">"localhost:27020/myDatabase"</span>);</div></pre></td></tr></table></figure></p>
+<p>方法请参考这里：<a href="http://docs.mongoing.com/manual-zh/reference/method.html" target="_blank" rel="external">mongo Shell Methods</a></p>
+<h2 id="互动和脚本之间的区别（Differences-Between-Interactive-and-Scripted-mongo）"><a href="#互动和脚本之间的区别（Differences-Between-Interactive-and-Scripted-mongo）" class="headerlink" title="互动和脚本之间的区别（Differences Between Interactive and Scripted mongo）"></a>互动和脚本之间的区别（Differences Between Interactive and Scripted mongo）</h2><p>当为mongo shell编写脚本时，请考虑以下内容：</p>
+<ul>
+<li>要设置db全局变量，请使用<a href="https://docs.mongodb.com/v3.2/reference/method/Mongo.getDB/#Mongo.getDB" target="_blank" rel="external"><code>getDB（）</code></a>方法或connect（）方法。 您可以将数据库引用分配给除db以外的变量。</li>
+<li><p>默认情况下，<code>mongo shell</code>中的写操作使用<a href="https://docs.mongodb.com/v3.2/reference/write-concern/#wc-w" target="_blank" rel="external"><code>{w：1}</code></a>的写入关注。 如果执行批量操作，请使用 <a href="https://docs.mongodb.com/v3.2/reference/method/Bulk/#Bulk" target="_blank" rel="external">Bulk（）</a>方法。 有关详细信息，请参阅 <a href="https://docs.mongodb.com/v3.2/release-notes/2.6-compatibility/#write-methods-incompatibility" target="_blank" rel="external"> Write Method Acknowledgements</a> 。</p>
+<p>更改在版本2.6：在MongoDB 2.6之前，调用 <a href="https://docs.mongodb.com/v3.2/reference/method/db.getLastError/#db.getLastError" target="_blank" rel="external"><code>db.getLastError（）</code></a>显式地等待写操作的结果。</p>
+</li>
+<li><p>您<strong>不能</strong>在JavaScript文件内使用任何shell帮助程序（例如使用<code>&lt;dbname&gt;</code>，<code>show dbs</code>等），因为它们不是有效的JavaScript。<br>下表将最常见的<code>mongo shell</code>帮助器映射到他们的JavaScript等效项。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Shell Helpers</th>
+<th style="text-align:right">JavaScript Equivalents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>show dbs, show databases</td>
+<td style="text-align:right">db.adminCommand(‘listDatabases’)</td>
+</tr>
+<tr>
+<td>use <db></db></td>
+<td style="text-align:right">db = db.getSiblingDB(‘<db>‘)</db></td>
+</tr>
+<tr>
+<td>show collections</td>
+<td style="text-align:right">db.getCollectionNames()</td>
+</tr>
+<tr>
+<td>show users</td>
+<td style="text-align:right">db.getUsers()</td>
+</tr>
+<tr>
+<td>show roles</td>
+<td style="text-align:right">db.getRoles({showBuiltinRoles: true})</td>
+</tr>
+<tr>
+<td>show log <logname></logname></td>
+<td style="text-align:right">db.adminCommand({ ‘getLog’ : ‘<logname>‘ })</logname></td>
+</tr>
+<tr>
+<td>show logs</td>
+<td style="text-align:right">db.adminCommand({ ‘getLog’ : ‘*’ })</td>
+</tr>
+<tr>
+<td>it</td>
+<td style="text-align:right">cursor = db.collection.find() …</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>在交互模式下，mongo打印操作的结果，包括所有光标的内容。 在脚本中，使用JavaScript <code>print（）</code>函数或mongo特定的<code>printjson（）</code>函数返回格式化的JSON。</li>
+</ul>
+<p>例<br>要在mongo shell脚本中打印结果游标中的所有项目，请使用以下idiom：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cursor = db.collection.find();</div><div class="line"><span class="keyword">while</span> ( cursor.hasNext() ) &#123;</div><div class="line">   printjson( cursor.next() );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>find()拿到的不是数据，而是游标（cursor），详情看mongo Shell Methods中关于cursor</p>
+</blockquote>
+<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>从系统提示符，使用mongodb来评估JavaScript。</p>
+<h3 id="eval-参数"><a href="#eval-参数" class="headerlink" title="-eval 参数"></a>-eval 参数</h3><p>使用<code>--eval</code>选项为mongo传递shell一个<code>JavaScript fragment</code>，如下所示：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mongo test --<span class="built_in">eval</span> <span class="string">"printjson(db.getCollectionNames())"</span></div></pre></td></tr></table></figure></p>
+<h3 id="执行JavaScript文件"><a href="#执行JavaScript文件" class="headerlink" title="执行JavaScript文件"></a>执行JavaScript文件</h3><p>您可以为mongo shell指定.js文件，mongo将直接执行JavaScript:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mongo localhost:<span class="number">27017</span>/test myjsfile.js</div></pre></td></tr></table></figure></p>
+<p>此操作在mongo shell中执行<code>myjsfile.js</code>脚本，该脚本连接到可以通过端口<code>27017</code>上的<code>localhost</code>接口访问的mongod实例上的 <strong>test</strong> 数据库。</p>
+<p>或者，您可以使用Mongo（）构造函数在javascript文件中指定mongodb连接参数。 有关详细信息，请参阅文章开头<strong>打开新连接</strong>部分。</p>
+<p>您可以使用<code>load（）</code>函数从<strong><em>mongo shell中</em></strong>执行.js文件，如下所示：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">▶ mongo</div><div class="line">MongoDB shell version v3<span class="number">.4</span><span class="number">.0</span>-rc4</div><div class="line">connecting to: mongodb:<span class="comment">//127.0.0.1:27017</span></div><div class="line">MongoDB server version: <span class="number">3.4</span><span class="number">.0</span>-rc4</div><div class="line">...</div><div class="line">&gt;load(<span class="string">"myjstest.js"</span>)</div></pre></td></tr></table></figure></p>
+<p>此函数加载并执行myjstest.js文件。</p>
+<p>load（）方法接受相对路径和绝对路径。如果mongo shell的当前工作目录是<code>/data/db</code>，并且<code>myjstest.js</code>驻留在<code>/data/db/scripts</code>目录中，则mongo shell中的以下调用将是等效的：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">load(<span class="string">"scripts/myjstest.js"</span>)</div><div class="line">load(<span class="string">"/data/db/scripts/myjstest.js"</span>)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>没有load（）函数的搜索路径。 如果所需的脚本不在当前工作目录或完全指定的路径中，mongo将无法访问该文件。</p>
+</blockquote>
+<h2 id="个人补充"><a href="#个人补充" class="headerlink" title="个人补充"></a>个人补充</h2><h3 id="实例："><a href="#实例：" class="headerlink" title="实例："></a>实例：</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// WorkSpace/LearnCode/mongo-scripts/script.js</span></div><div class="line">conn = <span class="keyword">new</span> Mongo(<span class="string">'127.0.0.1:27017'</span>);</div><div class="line">db = conn.getDB(<span class="string">'cw'</span>);</div><div class="line"></div><div class="line">boxes = db.boxes.find();</div><div class="line">printjson(boxes.next() );</div></pre></td></tr></table></figure>
+<p>然后打开终端：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">mongo</span> <span class="selector-tag">script</span><span class="selector-class">.js</span></div></pre></td></tr></table></figure></p>
+<p>结果：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">▶ mongo mongo.js</div><div class="line">MongoDB <span class="keyword">shell</span> <span class="keyword">version</span> v3.<span class="number">4.0</span>-rc4</div><div class="line">connecting <span class="keyword">to</span>: mongod<span class="variable">b:</span>//<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">27017</span></div><div class="line">MongoDB server <span class="keyword">version</span>: <span class="number">3.4</span>.<span class="number">0</span>-rc4</div><div class="line">&#123;</div><div class="line">        <span class="string">"_id"</span> : <span class="string">"1192336012"</span>,</div><div class="line">        <span class="string">"campus"</span> : <span class="string">"北华大学"</span>,</div><div class="line">        <span class="string">"building"</span> : <span class="string">"东校区9号楼"</span>,</div><div class="line">        <span class="string">"room"</span> : <span class="string">"103"</span>,</div><div class="line">        <span class="string">"nCustomers"</span> : <span class="string">"8"</span>,</div><div class="line">        <span class="string">"activateAt"</span> : ISODate(<span class="string">"2016-09-27T10:04:02.342Z"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://www.voidcn.com/blog/q383965374/article/p-2589838.html" target="_blank" rel="external">mongodb执行js脚本(一)—shell执行</a></p>
+<p><a href="https://docs.mongodb.com/manual/tutorial/write-scripts-for-the-mongo-shell/" target="_blank" rel="external">Write Scripts for the mongo Shell</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Mozilla/Projects/SpiderMonkey/Introduction_to_the_JavaScript_shell#说明" target="_blank" rel="external">Javascript shell</a></p>
+<p><a href="http://www.epubit.com.cn/book/onlinechapter/27994" target="_blank" rel="external">异步社区——MongoDB shell 脚本编程</a></p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share"
+                    style="text-align: right"
+                    data-thread-key="2016/11/22/MongoDB-Shell-Script操作备忘/"
+                    data-title="MongoDB Shell Script操作备忘"
+                    data-url="http://www.inhere.top/2016/11/22/MongoDB-Shell-Script操作备忘/"
+                    data-images="http://www.inhere.top/2016/11/22/MongoDB-Shell-Script操作备忘/http://obd9ssud2.bkt.clouddn.com/mongoDB.jpeg"
+                    data-content="编写mongo Shell的脚本
+在此页面上
+
+打开新连接
+互动和脚本之间的区别
+脚本
+
+
+您... | Martin的博客 | Martin&#39;s Blog " >
+                    <div class="ds-share-inline">
+                      <ul  class="ds-share-icons-16">
+                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                      </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2017/03/04/CSS-多行文本溢出显示省略号/" data-toggle="tooltip" data-placement="top" title="CSS 多行文本溢出显示省略号">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/11/17/如何在短时间内掌握一项技能/" data-toggle="tooltip" data-placement="top" title="如何在短时间内掌握一项技能">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="2016/11/22/MongoDB-Shell-Script操作备忘/"
+                        data-title="MongoDB Shell Script操作备忘"
+                        data-url="http://www.inhere.top/2016/11/22/MongoDB-Shell-Script操作备忘/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#MongoDB" title="MongoDB">MongoDB</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'InHere';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/zhang-hao-zhe-32">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/deletetmr">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/here21">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Martin的博客 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.inhere.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-69070764-1';
+    var _gaDomain = 'www.inhere.top';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://www.inhere.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

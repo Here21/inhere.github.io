@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          跳出单个元素的思维 - Martin的博客 | Martin&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.inhere.top/2016/09/12/跳出单个元素的思维/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Martin的博客</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">关于我</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">归档</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://www.inhere.top/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Javascript" title="Javascript">Javascript</a>
+                        
+                          <a class="tag" href="/tags/#工作总结" title="工作总结">工作总结</a>
+                        
+                    </div>
+                    <h1>跳出单个元素的思维</h1>
+                    <h2 class="subheading">工作总结:两种处理数据的思维</h2>
+                    <span class="meta">
+                        Posted by Martin张灏哲 on
+                        2016-09-12
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="五秒导读"><a href="#五秒导读" class="headerlink" title="五秒导读"></a>五秒导读</h1><p>一句总结:跳出思维的”墙”,处理数据从’单个元素’到’列表处理’</p>
+<blockquote>
+<ul>
+<li>列表处理(pipeline)看成一个整体,而不是把每个步骤看成循环</li>
+<li>filter/map/reduce</li>
+<li>跳出单个元素的思维(跟for说再见)</li>
+<li>项目中的传参</li>
+</ul>
+</blockquote>
+<h1 id="Pipeline"><a href="#Pipeline" class="headerlink" title="Pipeline"></a>Pipeline</h1><p>所谓<strong>“管道”</strong>，指的是通过<code>a.pipe(b)</code>的形式连接起来的多个Stream对象的组合。</p>
+<p>假如现在有两个Transform：bold和red，分别可将文本流中某些关键字加粗和飘红。<br>可以按下面的方式对文本同时加粗和飘红：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// source: 输入流</span></div><div class="line"><span class="comment">// dest: 输出目的地</span></div><div class="line">source.pipe(bold).pipe(red).pipe(dest)</div></pre></td></tr></table></figure></p>
+<p><code>bold.pipe(red)</code>便可以看作一个管道，输入流先后经过bold和red的变换再输出。</p>
+<p>但如果这种加粗且飘红的功能的应用场景很广，我们期望的使用方式是：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// source: 输入流</span></div><div class="line"><span class="comment">// dest: 输出目的地</span></div><div class="line"><span class="comment">// pipeline: 加粗且飘红</span></div><div class="line">source.pipe(pipeline).pipe(dest)</div></pre></td></tr></table></figure></p>
+<h1 id="filter-map-reduce-and-forEach"><a href="#filter-map-reduce-and-forEach" class="headerlink" title="filter/map/reduce and forEach"></a>filter/map/reduce and forEach</h1><p><a href="https://www.zhihu.com/question/24927450/answer/29478982" target="_blank" rel="external">下文来自知乎,作者：尤雨溪</a></p>
+<p>假设我们有一个数组，每个元素是一个人。你面前站了一排人。<br><code>foreach</code> 就是你按顺序一个一个跟他们做点什么，具体做什么，随便:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">people.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">dude</span>) </span>&#123;</div><div class="line">  dude.pickUpSoap();</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p><code>map</code> 就是你手里拿一个盒子（一个新的数组），一个一个叫他们把钱包扔进去。结束的时候你获得了一个新的数组，里面是大家的钱包，钱包的顺序和人的顺序一一对应。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> wallets = people.map(<span class="function"><span class="keyword">function</span> (<span class="params">dude</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> dude.wallet;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p><code>reduce</code> 就是你拿着钱包，一个一个数过去看里面有多少钱啊？每检查一个，你就和前面的总和加一起来。这样结束的时候你就知道大家总共有多少钱了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> totalMoney = wallets.reduce(<span class="function"><span class="keyword">function</span> (<span class="params">countedMoney, wallet</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> countedMoney + wallet.money;</div><div class="line">&#125;, <span class="number">0</span>);</div></pre></td></tr></table></figure></p>
+<p><code>filter</code>:你一个个钱包数过去的时候，里面钱少于 100 块的不要（留在原来的盒子里），多于 100 块的丢到一个新的盒子里。这样结束的时候你又有了一个新的数组，里面是所有钱多于 100 块的钱包：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fatWallets = wallets.filter(<span class="function"><span class="keyword">function</span> (<span class="params">wallet</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> wallet.money &gt; <span class="number">100</span>;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>最后要说明一点这个类比和实际代码的一个区别，那就是 <code>map</code> 和 <code>filter</code> 都是 <code>immutable methods</code>，也就是说它们只会返回一个新数组，而不会改变原来的那个数组，所以这里 <code>filter</code> 的例子是和代码有些出入的（原来的盒子里的钱包减少了），但为了形象说明，大家理解就好。</p>
+<p>这里还有一个知乎作者的图解Javascript数组迭代:<br>作者:<a href="https://www.zhihu.com/people/zhong-yu-fei-86" target="_blank" rel="external">水乙</a><br><img src="http://obd9ssud2.bkt.clouddn.com/%E5%9B%BE%E8%A7%A3javascript%E6%95%B0%E7%BB%84%E8%BF%AD%E4%BB%A3.jpeg" alt="Javascript数组迭代"></p>
+<p>这还有篇文章写的非常不错,很形象的对比了老语法实现<code>map filter reduce</code>,<a href="https://danmartensen.svbtle.com/javascripts-map-reduce-and-filter" target="_blank" rel="external">JavaScript’s Map, Reduce, and Filter</a></p>
+<h1 id="跳出单个元素的思维"><a href="#跳出单个元素的思维" class="headerlink" title="跳出单个元素的思维"></a>跳出单个元素的思维</h1><p>先来看一下我的任务:<br><img src="http://obd9ssud2.bkt.clouddn.com/%E5%95%86%E5%93%81%E8%A7%86%E5%9B%BE.png" alt="商品视图"><br><img src="http://obd9ssud2.bkt.clouddn.com/%E8%AE%A2%E5%8D%95%E8%A7%86%E5%9B%BE.png" alt="订单视图"></p>
+<blockquote>
+<p>container先用mock的数据，稍后再实现数据库访问。<br>“商品视图”中的未结账数量是从各订单中累加起来的，虽然同一商品在不同订单中价格可能不同，但“商品视图”中只关心总量，不关心价格。<br>顾客对着商品视图和盒子里的剩余，就知道自己已经吃了多少个。同时“商品视图”中还把预订订单累加起来，显示预订数，以便共用同一个盒子的几个人都能看到，以免大家没商量好重复下了订单。<br>“订单视图”中显示所有未结账或未完全结账的订单，未完全结账的订中每个商品都可以看到有多少个已经结了账，有多少个还没结，商品在每个订单中的单价是多少，到时候送货员上门也是用这个视图跟顾客核对收款的。</p>
+</blockquote>
+<p>大概的数据是这样的:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">  &#123;<span class="attr">"_id"</span>: <span class="string">"order5"</span>, <span class="attr">"boxId"</span>: <span class="string">"AAA"</span>, <span class="attr">"customer"</span>: <span class="string">"张小三"</span>, <span class="attr">"createAt"</span>: <span class="string">"2016-09-01T00:06:00"</span>, <span class="attr">"items"</span>: [</div><div class="line">    &#123;<span class="attr">"snackId"</span>: <span class="string">"aaaa"</span>, <span class="attr">"price"</span>: <span class="number">6.5</span>, <span class="attr">"paid"</span>: <span class="number">0</span>, <span class="attr">"unpaid"</span>: <span class="number">10</span>, <span class="attr">"reject"</span>: <span class="number">0</span>&#125;,</div><div class="line">    &#123;<span class="attr">"snackId"</span>: <span class="string">"cccc"</span>, <span class="attr">"price"</span>: <span class="number">3</span>, <span class="attr">"paid"</span>: <span class="number">0</span>, <span class="attr">"unpaid"</span>: <span class="number">3</span>, <span class="attr">"reject"</span>: <span class="number">0</span>&#125;</div><div class="line">  ]&#125;,</div><div class="line">  &#123;<span class="attr">"_id"</span>: <span class="string">"order4"</span>, <span class="attr">"boxId"</span>: <span class="string">"AAA"</span>, <span class="attr">"customer"</span>: <span class="string">"张三"</span>, <span class="attr">"createAt"</span>: <span class="string">"2016-09-01T00:05:00"</span>, <span class="attr">"items"</span>: [</div><div class="line">    &#123;<span class="attr">"snackId"</span>: <span class="string">"aaaa"</span>, <span class="attr">"price"</span>: <span class="number">6.5</span>, <span class="attr">"paid"</span>: <span class="number">0</span>, <span class="attr">"unpaid"</span>: <span class="number">5</span>, <span class="attr">"reject"</span>: <span class="number">0</span>&#125;,</div><div class="line">    &#123;<span class="attr">"snackId"</span>: <span class="string">"dddd"</span>, <span class="attr">"price"</span>: <span class="number">3</span>, <span class="attr">"paid"</span>: <span class="number">0</span>, <span class="attr">"unpaid"</span>: <span class="number">3</span>, <span class="attr">"reject"</span>: <span class="number">0</span>&#125;</div><div class="line">  ]&#125;,</div><div class="line">  &#123;<span class="attr">"_id"</span>: <span class="string">"order3"</span>, <span class="attr">"boxId"</span>: <span class="string">"AAA"</span>, <span class="attr">"customer"</span>: <span class="string">"李四"</span>, <span class="attr">"createAt"</span>: <span class="string">"2016-08-21T10:25:00"</span>, <span class="attr">"deliverAt"</span>: <span class="string">"2016-08-21T23:42:00"</span>, <span class="attr">"items"</span>: [</div><div class="line">    &#123;<span class="attr">"snackId"</span>: <span class="string">"aaaa"</span>, <span class="attr">"price"</span>: <span class="number">6.5</span>, <span class="attr">"paid"</span>: <span class="number">2</span>, <span class="attr">"unpaid"</span>: <span class="number">3</span>, <span class="attr">"reject"</span>: <span class="number">0</span>&#125;,</div><div class="line">    &#123;<span class="attr">"snackId"</span>: <span class="string">"cccc"</span>, <span class="attr">"price"</span>: <span class="number">4.5</span>, <span class="attr">"paid"</span>: <span class="number">0</span>, <span class="attr">"unpaid"</span>: <span class="number">2</span>, <span class="attr">"reject"</span>: <span class="number">0</span>&#125;</div><div class="line">  ]&#125;,</div><div class="line">  &#123;<span class="attr">"_id"</span>: <span class="string">"order2"</span>, <span class="attr">"boxId"</span>: <span class="string">"BBB"</span>, <span class="attr">"customer"</span>: <span class="string">"王五"</span>, <span class="attr">"createAt"</span>: <span class="string">"2016-08-16T14:09:00"</span>, <span class="attr">"deliverAt"</span>: <span class="string">"2016-08-17T03:30:00"</span>, <span class="attr">"items"</span>: [</div><div class="line">    &#123;<span class="attr">"snackId"</span>: <span class="string">"bbbb"</span>, <span class="attr">"price"</span>: <span class="number">3</span>, <span class="attr">"paid"</span>: <span class="number">7</span>, <span class="attr">"unpaid"</span>: <span class="number">0</span>, <span class="attr">"reject"</span>: <span class="number">0</span>&#125;,</div><div class="line">    &#123;<span class="attr">"snackId"</span>: <span class="string">"cccc"</span>, <span class="attr">"price"</span>: <span class="number">4.5</span>, <span class="attr">"paid"</span>: <span class="number">7</span>, <span class="attr">"unpaid"</span>: <span class="number">0</span>, <span class="attr">"reject"</span>: <span class="number">0</span>&#125;</div><div class="line">  ]&#125;,</div><div class="line">  &#123;<span class="attr">"_id"</span>: <span class="string">"order1"</span>, <span class="attr">"boxId"</span>: <span class="string">"AAA"</span>, <span class="attr">"customer"</span>: <span class="string">"张三"</span>, <span class="attr">"createAt"</span>: <span class="string">"2016-08-03T06:17:00"</span>, <span class="attr">"deliverAt"</span>: <span class="string">"2016-08-03T12:00:00"</span>, <span class="attr">"items"</span>: [</div><div class="line">    &#123;<span class="attr">"snackId"</span>: <span class="string">"cccc"</span>, <span class="attr">"price"</span>: <span class="number">1</span>, <span class="attr">"paid"</span>: <span class="number">9</span>, <span class="attr">"unpaid"</span>: <span class="number">1</span>, <span class="attr">"reject"</span>: <span class="number">2</span>&#125;</div><div class="line">  ]&#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>我的理解:<br>合并两个新订单的<code>items</code>,然后再把相同的累加起来,再对比最新的一个带有<code>deliverAt</code>字段的订单,把新的商品抽取出来,这就是这次新添加的商品,剩下的就是在原来的基础上补货了.</p>
+<p>我的绊脚石一:处理多个订单,然后把符合要求的订单的<code>items</code>单独抽出来.<br>解决:<br>使用了笨办法,把<code>items</code>拿出来放进一个新的数组;<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> temp = [];</div><div class="line">  <span class="keyword">const</span> newItems = Orders.filter(<span class="function"><span class="params">order</span> =&gt;</span> _.includes(order, snackboxId) &amp;&amp; !order.deliverAt).map(<span class="function"><span class="params">item</span> =&gt;</span> (item.items));</div><div class="line">  newItems.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">order</span>) </span>&#123;</div><div class="line">    order.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">i</span>) </span>&#123;</div><div class="line">      temp.push(i);</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div></pre></td></tr></table></figure></p>
+<p>我的绊脚石二:拿到了所有的<code>items</code>,但是面临多个相同的<code>items</code>不知道如何合并相同名称的商品,并且将数据累加起来<br>我拿到的数据大概是这样的:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">  [</div><div class="line">    &#123;</div><div class="line">      paid:0</div><div class="line">      price:6.5</div><div class="line">      reject:0</div><div class="line">      snackId:"aaaa"</div><div class="line">      Unpaid:10</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      paid:0</div><div class="line">      price:6.5</div><div class="line">      reject:0</div><div class="line">      snackId:"aaaa"</div><div class="line">      Unpaid:10</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  ],</div><div class="line">  [</div><div class="line">    &#123;</div><div class="line">      paid:0</div><div class="line">      price:6.5</div><div class="line">      reject:0</div><div class="line">      snackId:"aaaa"</div><div class="line">      Unpaid:10</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      paid:0</div><div class="line">      price:6.5</div><div class="line">      reject:0</div><div class="line">      snackId:"aaaa"</div><div class="line">      Unpaid:10</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  ],</div><div class="line">  // ...</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>好了,接下来就是将他们<code>groupBy</code>然后<code>reduce</code>了,思路这样没错,可是我的代码写的那是一个加粗的<strong>蠢</strong>:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// groupBy</span></div><div class="line"><span class="keyword">let</span> groupItems = _.groupBy(temp, <span class="string">'snackId'</span>);</div><div class="line"><span class="comment">// 更新Items的属性</span></div><div class="line"><span class="keyword">let</span> updatedItems = _.map(groupItems, <span class="function"><span class="keyword">function</span> (<span class="params">content, key</span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> paid = [];</div><div class="line">  <span class="keyword">let</span> unpaid = [];</div><div class="line">  content.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</div><div class="line">    paid.push(res.paid);</div><div class="line">    unpaid.push(res.unpaid);</div><div class="line">  &#125;);</div><div class="line">  <span class="keyword">let</span> result = &#123;&#125;;</div><div class="line">  result.snackId = key;</div><div class="line">  result.reserve = unpaid.reduce(<span class="function">(<span class="params">pre, cur</span>) =&gt;</span> (pre + cur));</div><div class="line">  result.paid = paid.reduce(<span class="function">(<span class="params">pre, cur</span>) =&gt;</span> (pre + cur));</div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//合并订单与存货,添加商品信息,我想让两个数组通过循环的方式去对比,这里也是没有摆脱单个思维元素的地方</span></div><div class="line">updatedItems.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> SWITCH;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; lastStock.length; i++)&#123;</div><div class="line">    <span class="keyword">if</span> (lastStock[i].snackId === item.snackId) &#123;</div><div class="line">      lastStock[i].reserve = item.reserve;</div><div class="line">      lastStock[i].name = Snacks.find(<span class="function"><span class="params">snack</span> =&gt;</span> (snack._id === lastStock[i].snackId)).name;</div><div class="line">      SWITCH = <span class="literal">false</span>;</div><div class="line">      <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    SWITCH = <span class="literal">true</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (SWITCH) &#123;</div><div class="line">    item.new = <span class="literal">true</span>;</div><div class="line">    item.unpaid = <span class="number">0</span>;</div><div class="line">    item.name = Snacks.find(<span class="function"><span class="params">snack</span> =&gt;</span> (snack._id === item.snackId)).name;</div><div class="line">    lastStock.push(item);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>接下来就是CTO宋劲杉老师的25行吊打代码:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> items = _(res) <span class="comment">// [&#123;..[].&#125;, &#123;..[].&#125;, &#123;..[].&#125;, &#123;..[].&#125;]</span></div><div class="line">       .filter(<span class="function"><span class="params">order</span> =&gt;</span> !!order.deliverAt) <span class="comment">// [&#123;..[].&#125;, &#123;..[].&#125;, &#123;..[].&#125;]</span></div><div class="line">       .reduce(<span class="function">(<span class="params">sum, order</span>) =&gt;</span> sum.concat(order.items), []); <span class="comment">// [&#123;...&#125;, &#123;...&#125;, &#123;...&#125;]</span></div><div class="line"> items = _(items)</div><div class="line">   .groupBy(<span class="string">'snackId'</span>) <span class="comment">// &#123;snackId1: [&#123;...&#125;, &#123;...&#125;], snackId2: [&#123;...&#125;]&#125;</span></div><div class="line">   .mapValues(<span class="function">(<span class="params">itemsPerSnackId, snackId</span>) =&gt;</span> (&#123;</div><div class="line">     snackId,</div><div class="line">     <span class="attr">name</span>: itemsPerSnackId[<span class="number">0</span>].name,</div><div class="line">     <span class="attr">unpaid</span>: itemsPerSnackId.reduce(<span class="function">(<span class="params">sum, item</span>) =&gt;</span> sum + item.unpaid, <span class="number">0</span>)</div><div class="line">   &#125;))</div><div class="line">   .value(); <span class="comment">// &#123;id1: &#123;snackId: 'id1', name: "XXXX", unpaid: X&#125;, id2: &#123;snackId: 'id2', name: "YYYY", unpaid: Y&#125;&#125;</span></div><div class="line"> <span class="keyword">let</span> newOrderItems = _(res)</div><div class="line">   .filter(<span class="function"><span class="params">order</span> =&gt;</span> !order.deliverAt)</div><div class="line">   .reduce(<span class="function">(<span class="params">sum, order</span>) =&gt;</span> sum.concat(order.items), []);</div><div class="line"> newOrderItems = _(newOrderItems)</div><div class="line">   .groupBy(<span class="string">'snackId'</span>)</div><div class="line">   .mapValues(<span class="function">(<span class="params">itemsPerSnackId, snackId</span>) =&gt;</span> (&#123;</div><div class="line">     snackId,</div><div class="line">     <span class="attr">name</span>: itemsPerSnackId[<span class="number">0</span>].name,</div><div class="line">     <span class="attr">ordered</span>: itemsPerSnackId.reduce(<span class="function">(<span class="params">sum, item</span>) =&gt;</span> sum + item.unpaid, <span class="number">0</span>)</div><div class="line">   &#125;))</div><div class="line">   .value();</div><div class="line"> _.merge(items, newOrderItems);</div></pre></td></tr></table></figure></p>
+<p>的确值得我好好学习一下,特别是<code>Pipeline</code>的这种思维,在我的代码中,最后一部分,还用了<code>flag</code>,自己写的时候都觉得好蠢.</p>
+<h1 id="项目中的总结"><a href="#项目中的总结" class="headerlink" title="项目中的总结"></a>项目中的总结</h1><h2 id="无状态组件"><a href="#无状态组件" class="headerlink" title="无状态组件:"></a>无状态组件:</h2><p>这种组件没有状态，没有生命周期，只是简单的接受 <code>props</code> 渲染生成 <code>DOM</code> 结构,无状态组件非常简单，开销很低，如果可能的话尽量使用无状态组件。比如使用箭头函数定义.<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// 注意传入参数</div><div class="line">const HelloMessage = (props) =&gt; &lt;div&gt; Hello &#123;props.name&#125;&lt;/div&gt;;</div><div class="line">render(&lt;HelloMessage name="John" /&gt;, mountNode);</div><div class="line"></div><div class="line">// 项目中被宋老师替换</div><div class="line">class MySnackBox extends React.Component &#123;...&#125;</div><div class="line"></div><div class="line">export default (props) =&gt; &#123;...&#125;</div></pre></td></tr></table></figure></p>
+<p><a href="https://facebook.github.io/react/docs/reusable-components.html#stateless-functions" target="_blank" rel="external">Stateless Functions</a></p>
+<blockquote>
+<p>无状态组件(Stateless Component) 是 React 0.14 之后推出的，大大增强了编写 React 组件的方便性，也提升了整体的渲染性能。</p>
+</blockquote>
+<p>需注意的是:</p>
+<blockquote>
+<ul>
+<li>参数使用<code>props</code>关键字</li>
+<li>无状态组件不支持 “ref”</li>
+<li>无状态组件尚不支持 babel-plugin-react-transform 的 Hot Module Replacement</li>
+</ul>
+</blockquote>
+<p>这里是相关文章:<br><a href="https://segmentfault.com/a/1190000004490882" target="_blank" rel="external">React.js学习笔记之组件属性与状态</a><br><a href="http://www.jianshu.com/p/63569386befc" target="_blank" rel="external">无状态组件(Stateless Component) 与高阶组件</a><br><a href="http://bbs.reactnative.cn/topic/15/react-react-native-%E7%9A%84es5-es6%E5%86%99%E6%B3%95%E5%AF%B9%E7%85%A7%E8%A1%A8" target="_blank" rel="external">React/React Native 的ES5 ES6写法对照表</a></p>
+
+
+                <hr>
+
+                
+                <!-- 多说 Share start -->
+                </style>
+                <div class="ds-share"
+                    style="text-align: right"
+                    data-thread-key="2016/09/12/跳出单个元素的思维/"
+                    data-title="跳出单个元素的思维"
+                    data-url="http://www.inhere.top/2016/09/12/跳出单个元素的思维/"
+                    data-images=""
+                    data-content="五秒导读一句总结:跳出思维的”墙”,处理数据从’单个元素’到’列表处理’
+
+
+列表处理(pip... | Martin的博客 | Martin&#39;s Blog " >
+                    <div class="ds-share-inline">
+                      <ul  class="ds-share-icons-16">
+                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                      </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/11/13/PipeLine处理数据（一）/" data-toggle="tooltip" data-placement="top" title="PipeLine处理数据（一）">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/09/08/转载自用-前端面试题汇总/" data-toggle="tooltip" data-placement="top" title="转载自用:前端面试题汇总">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="2016/09/12/跳出单个元素的思维/"
+                        data-title="跳出单个元素的思维"
+                        data-url="http://www.inhere.top/2016/09/12/跳出单个元素的思维/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Javascript" title="Javascript">Javascript</a>
+                        
+                          <a class="tag" href="/tags/#工作总结" title="工作总结">工作总结</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'InHere';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/zhang-hao-zhe-32">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/deletetmr">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/here21">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Martin的博客 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.inhere.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-69070764-1';
+    var _gaDomain = 'www.inhere.top';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://www.inhere.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

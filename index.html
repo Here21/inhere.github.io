@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Martin的博客 | Martin&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.inhere.top/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Martin的博客</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">关于我</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">归档</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">标签</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Martin的博客</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">Better myself, longer distances.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/2017/03/04/CSS-多行文本溢出显示省略号/">
+        <h2 class="post-title">
+            CSS 多行文本溢出显示省略号
+        </h2>
+        <h3 class="post-subtitle">
+            多/单行文本溢出显示省略号,纯CSS的使用记录
+        </h3>
+        <div class="post-content-preview">
+            CSS 多行文本溢出显示省略号
+当然是用js同样可以解决问题，但是这里记录一下css的方式
+
+对于webkit内核的浏览器，或者移动端，可以实现多行文本内容溢出显示“…”：123456.box &#123;    display: -webkit-box;    -webkit-line-clamp: 3;    -webkit-box-orient: vertical;    overfl......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Martin张灏哲 on
+        2017-03-04
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/11/22/MongoDB-Shell-Script操作备忘/">
+        <h2 class="post-title">
+            MongoDB Shell Script操作备忘
+        </h2>
+        <h3 class="post-subtitle">
+            翻译&补充：官方文档——Write Scripts for the mongo Shell
+        </h3>
+        <div class="post-content-preview">
+            编写mongo Shell的脚本
+在此页面上
+
+打开新连接
+互动和脚本之间的区别
+脚本
+
+
+您可以在JavaScript中编写mongo shell的脚本，在MongoDB中操作数据或执行管理操作。 有关mongo shell的更多信息，有关使用这些mongo脚本的更多信息，请参阅通过服务器部分上的mongo shell实例运行.js文件。
+本教程提供了编写使用mongo shell访问Mo......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Martin张灏哲 on
+        2016-11-22
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/11/17/如何在短时间内掌握一项技能/">
+        <h2 class="post-title">
+            如何在短时间内掌握一项技能
+        </h2>
+        <h3 class="post-subtitle">
+            Scott Young在知乎live的传授总结
+        </h3>
+        <div class="post-content-preview">
+            定义什么是技能首先，我们应该定义，什么是技能。
+技能——是掌握并运用一项技术的能力。
+比如会一门语言，会做饭，会游泳，会开车，这都是技能，也都是我们掌握并运用的一项技术。
+什么是学会我们定义了技能，接着应该定义什么是学会一项技能。学会——就是你要定义自己的目标，你要去哪里？你想用它来干什么？
+比如，我学习外语，就是为了了解他们的文化，就是为了融入他们的文化。而融入他们，就是用他们的语言与他们......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Martin张灏哲 on
+        2016-11-17
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/11/16/Creat一个更好用的meteor-react项目/">
+        <h2 class="post-title">
+            Creat一个更好用的meteor-react项目
+        </h2>
+        <h3 class="post-subtitle">
+            构建meteor-react-redux项目 并且使用 webpack来替代ecmascript
+        </h3>
+        <div class="post-content-preview">
+            当我们开始使用Meteor-react的时候，我们都需要什么？Meteor是一套惊人的工具来高效地创建伟大的Web应用。我非常喜爱它。而随着spa（不是SPA，是单页应用）的发展，以 react 来说，组件化和状态机的思想真是解放了烦恼的 dom 操作，一切都为状态。state 来操纵 views 的变化。然而，因为页面的组件化，导致每个组件都必须维护自身的一套状态，对于小型应用还好。但是对......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Martin张灏哲 on
+        2016-11-16
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/11/13/PipeLine处理数据（一）/">
+        <h2 class="post-title">
+            PipeLine处理数据（一）
+        </h2>
+        <h3 class="post-subtitle">
+            处理复杂数据的思考与进步
+        </h3>
+        <div class="post-content-preview">
+            PipeLine思路处理数据是程序员的必修课，无论是后端程序员，还是前端程序员，都要面对的绕不开的问题。处理问题的方式有很多，如何更聪明高效的处理才会不断进步。
+刚开始接触的时候，最直观的思路就是循环，for while等，但是当数据结构比较复杂的时候，这样处理不仅会很混乱，也同样低效。
+所以PipeLine的思路就是利用语言标准库提供的方法去处理。
+实例看看我们抓取的生肉（未处理数据）：而......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Martin张灏哲 on
+        2016-11-13
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/09/12/跳出单个元素的思维/">
+        <h2 class="post-title">
+            跳出单个元素的思维
+        </h2>
+        <h3 class="post-subtitle">
+            工作总结:两种处理数据的思维
+        </h3>
+        <div class="post-content-preview">
+            五秒导读一句总结:跳出思维的”墙”,处理数据从’单个元素’到’列表处理’
+
+
+列表处理(pipeline)看成一个整体,而不是把每个步骤看成循环
+filter/map/reduce
+跳出单个元素的思维(跟for说再见)
+项目中的传参
+
+
+Pipeline所谓“管道”，指的是通过a.pipe(b)的形式连接起来的多个Stream对象的组合。
+假如现在有两个Transform：bold和red，......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Martin张灏哲 on
+        2016-09-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/09/08/转载自用-前端面试题汇总/">
+        <h2 class="post-title">
+            转载自用:前端面试题汇总
+        </h2>
+        <h3 class="post-subtitle">
+            转载自用,原文请看作者git仓库
+        </h3>
+        <div class="post-content-preview">
+            原文链接
+#前端开发面试题
+前言只看问题点这里 
+看全部问题和答案点这里
+本文由我收集总结了一些前端面试题，初学者阅后也要用心钻研其中的原理，重要知识需要系统学习、透彻学习，形成自己的知识链。万不可投机取巧，临时抱佛脚只求面试侥幸混过关是错误的！也是不可能的！不可能的！不可能的！
+前端还是一个年轻的行业，新的行业标准， 框架， 库都不断在更新和新增，正如赫门在2015深JS大会上的《前端服务......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Martin张灏哲 on
+        2016-09-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/08/31/七牛在Meteor中的上传实例与FileReader的使用/">
+        <h2 class="post-title">
+            七牛在Meteor中的上传实例与FileReader的使用
+        </h2>
+        <h3 class="post-subtitle">
+            Meteor 中使用qiniu NodeSDK 的个人总结
+        </h3>
+        <div class="post-content-preview">
+            引言自己在项目中使用qiniu的总结.可以在这里下载Meteor-qiniu-demo
+安装qiniu通过 npm 以 node 模块化的方式安装：1meteor npm install qiniu
+还需要这个包将异步转为同步:1meteor add meteorhacks:async
+初始化在自己的秘钥中找到AccessKey / SecretKey. 
+找到文件使用&lt;input t......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Martin张灏哲 on
+        2016-08-31
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/08/19/十分钟了解ES6/">
+        <h2 class="post-title">
+            十分钟了解ES6
+        </h2>
+        <h3 class="post-subtitle">
+            从javascript到ES6，看这些变化就够了
+        </h3>
+        <div class="post-content-preview">
+            导读ES6的变化已经让javascript语言变得更值得信赖，那么在了解ES6之前，你都应该去试图理解一下的代码：1234567891011121314151617181920212223242526272829export default class Vehicle &#123;  constructor(type, number) &#123;    this.type = type; ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Martin张灏哲 on
+        2016-08-19
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2016/08/17/Redux-上手笔记（一）/">
+        <h2 class="post-title">
+            Redux 上手笔记（一）
+        </h2>
+        <h3 class="post-subtitle">
+            让react的state可控可预测
+        </h3>
+        <div class="post-content-preview">
+            Redux 动机通过限制更新发生的时间和方式，Redux 试图让 state 的变化变得可预测。
+
+三大原则
+单一数据源（整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中）
+只读的State（惟一改变 state 的方法就是触发 action，action 是一个用于描述已发生事件的普通对象。）
+使用纯函数来......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Martin张灏哲 on
+        2016-08-17
+    </p>
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    
+        <li class="next">
+            <a href="/page/2/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <!-- 如果开启评论功能 -->
+                
+
+            </div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                            <a href="/tags/#React" title="React" rel="2">React</a>
+                            
+                        
+                            
+                            <a href="/tags/#Meteor" title="Meteor" rel="2">Meteor</a>
+                            
+                        
+                            
+                            <a href="/tags/#Redux" title="Redux" rel="2">Redux</a>
+                            
+                        
+                            
+                            <a href="/tags/#Linux" title="Linux" rel="2">Linux</a>
+                            
+                        
+                            
+                            <a href="/tags/#Hexo" title="Hexo" rel="2">Hexo</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#Javascript" title="Javascript" rel="2">Javascript</a>
+                            
+                        
+                            
+                            <a href="/tags/#工作总结" title="工作总结" rel="2">工作总结</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+
+                        
+                            <img src="/img/avatar.jpg" />
+                        
+
+                        
+                            <p>生命在于经历</p>
+                        
+
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+                                <li>
+                                    <a target="_blank" href="https://www.zhihu.com/people/zhang-hao-zhe-32">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa  fa-stack-1x fa-inverse">知</i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="https://www.facebook.com/deletetmr">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+                                <li>
+                                    <a target="_blank"  href="https://github.com/here21">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                            
+                            
+                            
+                        </ul>
+                    </div>
+                </section>
+                
+                <!-- Friends Blog -->
+                
+            </div>
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/zhang-hao-zhe-32">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/deletetmr">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/here21">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Martin的博客 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.inhere.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-69070764-1';
+    var _gaDomain = 'www.inhere.top';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://www.inhere.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
